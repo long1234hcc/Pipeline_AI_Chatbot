@@ -1,0 +1,32 @@
+[2025-02-01T07:37:03.185+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-01T07:37:03.222+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: my_dag.accurate scheduled__2025-01-26T00:00:00+00:00 [queued]>
+[2025-02-01T07:37:03.446+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: my_dag.accurate scheduled__2025-01-26T00:00:00+00:00 [queued]>
+[2025-02-01T07:37:03.447+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-02-01T07:37:03.476+0000] {taskinstance.py:2889} INFO - Executing <Task(BashOperator): accurate> on 2025-01-26 00:00:00+00:00
+[2025-02-01T07:37:03.495+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=125) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-01T07:37:03.498+0000] {standard_task_runner.py:72} INFO - Started process 131 to run task
+[2025-02-01T07:37:03.499+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'my_dag', 'accurate', 'scheduled__2025-01-26T00:00:00+00:00', '--job-id', '96', '--raw', '--subdir', 'DAGS_FOLDER/my_dags.py', '--cfg-path', '/tmp/tmp6h_w0_y7']
+[2025-02-01T07:37:03.500+0000] {standard_task_runner.py:105} INFO - Job 96: Subtask accurate
+[2025-02-01T07:37:03.575+0000] {task_command.py:467} INFO - Running <TaskInstance: my_dag.accurate scheduled__2025-01-26T00:00:00+00:00 [running]> on host f20f83373f6a
+[2025-02-01T07:37:03.707+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='my_dag' AIRFLOW_CTX_TASK_ID='accurate' AIRFLOW_CTX_EXECUTION_DATE='2025-01-26T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-26T00:00:00+00:00'
+[2025-02-01T07:37:03.709+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-01T07:37:03.710+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-01T07:37:03.711+0000] {logging_mixin.py:190} INFO - Current task name:accurate state:running start_date:2025-02-01 07:37:03.223920+00:00
+[2025-02-01T07:37:03.711+0000] {logging_mixin.py:190} INFO - Dag name:my_dag and current dag run status:running
+[2025-02-01T07:37:03.712+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-01T07:37:03.714+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-02-01T07:37:03.727+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', "echo 'accurate'"]
+[2025-02-01T07:37:03.746+0000] {subprocess.py:99} INFO - Output:
+[2025-02-01T07:37:03.754+0000] {subprocess.py:106} INFO - accurate
+[2025-02-01T07:37:03.755+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2025-02-01T07:37:03.804+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-01T07:37:03.805+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=my_dag, task_id=accurate, run_id=scheduled__2025-01-26T00:00:00+00:00, execution_date=20250126T000000, start_date=20250201T073703, end_date=20250201T073703
+[2025-02-01T07:37:03.829+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-02-01T07:37:03.830+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-02-01T07:37:03.830+0000] {logging_mixin.py:190} INFO - Dag name:my_dag queued_at:2025-02-01 07:36:43.366115+00:00
+[2025-02-01T07:37:03.831+0000] {logging_mixin.py:190} INFO - Task hostname:f20f83373f6a operator:BashOperator
+[2025-02-01T07:37:03.879+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-01T07:37:03.903+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-01T07:37:03.906+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
