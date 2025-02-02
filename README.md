@@ -7,5 +7,14 @@
 4. Xây dựng chatbot bằng Langchain và Google API key (Gemini-flask-1.5)
 5. Query cơ sở dữ liệu để trả ra các kết quả thống kê
 
+## Các bước vận hành dự án
+1. Cài MySQL, MinioS3, Airflow bằng docker
+2. Viết file docker-compose.yaml
+3. Chạy airflow trên port localhost:8080
+4. Đưa dự án vào folder dags trong folder chứa airflow
+5. Quản lý dự án và chạy tự động trên giao diện của airflow
+
+
 ## Mở rộng dự án
 Xây dựng tự động báo cáo bằng Power BI hoặc Tableu để lên báo cáo tự động hàng ngày
+
