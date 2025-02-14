@@ -4,9 +4,6 @@ from io import BytesIO
 import pandas as pd
 
 def connect_minio(endpoint, access_key, secret_key, secure=False):
-    """
-    Kết nối đến MinIO S3.
-    """
     try:
         client = Minio(
             endpoint=endpoint,
@@ -21,9 +18,6 @@ def connect_minio(endpoint, access_key, secret_key, secure=False):
         raise
 
 def create_bucket(client, bucket_name):
-    """
-    Tạo bucket nếu chưa tồn tại.
-    """
     try:
         if not client.bucket_exists(bucket_name):
             client.make_bucket(bucket_name)
@@ -35,9 +29,6 @@ def create_bucket(client, bucket_name):
         raise
 
 def upload_file_to_s3(client, bucket_name, file_path, object_name):
-    """
-    Upload file từ đường dẫn cục bộ lên MinIO.
-    """
     try:
         client.fput_object(bucket_name, object_name, file_path)
         print(f"File '{file_path}' đã được upload vào bucket '{bucket_name}' với tên '{object_name}'.")
