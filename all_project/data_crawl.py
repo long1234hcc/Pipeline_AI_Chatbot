@@ -3,12 +3,8 @@ import asyncio
 from bs4 import BeautifulSoup
 from tenacity import retry, stop_after_attempt, wait_fixed
 
-# Hàm gửi yêu cầu và xử lý lỗi với retry
 @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
 async def fetch(session, url):
-    """
-    Gửi yêu cầu HTTP GET và trả về nội dung HTML.
-    """
     async with session.get(url) as response:
         if response.status != 200:
             raise Exception(f"Failed to fetch {url} with status {response.status}")
@@ -16,9 +12,7 @@ async def fetch(session, url):
 
 
 async def extract_brand_urls(base_url):
-    """
-    Crawl trang chủ và lấy danh sách URL của các thương hiệu.
-    """
+
     async with aiohttp.ClientSession() as session:
         html_content = await fetch(session, base_url)
         soup = BeautifulSoup(html_content, "html.parser")
@@ -34,14 +28,11 @@ async def extract_brand_urls(base_url):
 
 
 async def extract_product_info(session, brand_url):
-    """
-    Crawl thông tin sản phẩm từ URL của thương hiệu.
-    """
+
     products = []
     html_content = await fetch(session, brand_url)
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # Tìm tất cả các sản phẩm trong trang
     items = soup.find_all("div", class_="ProductGridItem__itemOuter")
     for item in items:
         product = {
@@ -58,20 +49,17 @@ async def extract_product_info(session, brand_url):
 
 
 async def crawl_brands(base_url):
-    """
-    Crawl tất cả thương hiệu và sản phẩm từ trang chủ.x
-    """
     async with aiohttp.ClientSession() as session:
-        # Lấy danh sách URL thương hiệu
+        # lst url brand
         brand_urls = await extract_brand_urls(base_url)
         print(f"Found {len(brand_urls)} brands to crawl.")
 
-        # Crawl thông tin sản phẩm từ từng thương hiệu
+        # Crawl brand
         all_products = []
         tasks = [extract_product_info(session, url) for url in brand_urls]
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        # Xử lý kết quả
+        # Handle result
         for result in results:
             if isinstance(result, list):
                 all_products.extend(result)
