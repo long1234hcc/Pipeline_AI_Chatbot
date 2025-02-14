@@ -3,9 +3,6 @@ from mysql.connector import Error
 import pandas as pd
 
 def connect_mysql(host, port, user, password, database):
-    """
-    Kết nối đến MySQL.
-    """
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -22,12 +19,8 @@ def connect_mysql(host, port, user, password, database):
         raise
     
 def drop_table_if_exists(connection, table_name):
-    """
-    Xoá bảng trong MySQL nếu bảng đã tồn tại.
-    """
     try:
         cursor = connection.cursor()
-        # Kiểm tra và xoá bảng nếu tồn tại
         drop_table_query = f"DROP TABLE IF EXISTS {table_name};"
         cursor.execute(drop_table_query)
         print(f"Bảng '{table_name}' đã được xoá (nếu tồn tại).")
@@ -37,9 +30,6 @@ def drop_table_if_exists(connection, table_name):
 
 
 def create_table(connection, table_name):
-    """
-    Tạo bảng trong MySQL nếu chưa tồn tại.
-    """
     try:
         cursor = connection.cursor()
         create_table_query = f"""
@@ -61,12 +51,8 @@ def create_table(connection, table_name):
         raise
 
 def insert_data(connection, table_name, dataframe):
-    """
-    Chèn dữ liệu từ pandas DataFrame vào MySQL.
-    """
     try:
         cursor = connection.cursor()
-        # Câu lệnh INSERT
         insert_query = f"""
         INSERT INTO {table_name} (vn_name, en_name, new_price, old_price, discount_percentage, sold, url_thumbnail)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -77,7 +63,6 @@ def insert_data(connection, table_name, dataframe):
         sold = VALUES(sold),
         url_thumbnail = VALUES(url_thumbnail);
         """
-        # Chuẩn bị dữ liệu dưới dạng tuple
         data_to_insert = [
             (
                 row['vn_name'],
@@ -91,7 +76,6 @@ def insert_data(connection, table_name, dataframe):
             for _, row in dataframe.iterrows()
         ]
 
-        # Thực hiện chèn dữ liệu
         cursor.executemany(insert_query, data_to_insert)
         connection.commit()
         print(f"Đã chèn {cursor.rowcount} dòng vào bảng '{table_name}'!")
@@ -101,9 +85,7 @@ def insert_data(connection, table_name, dataframe):
         raise
 
 def close_connection(connection):
-    """
-    Đóng kết nối MySQL.
-    """
+
     if connection.is_connected():
         connection.close()
         print("Kết nối tới MySQL đã được đóng.")
