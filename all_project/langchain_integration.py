@@ -8,9 +8,6 @@ import google.generativeai as genai
 
 
 def connect_langchain_sql(db_user, db_password, db_host, db_name):
-    """
-    Kết nối LangChain với MySQL qua SQLDatabase.
-    """
     try:
         db_uri = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
         db = SQLDatabase.from_uri(db_uri, sample_rows_in_table_info=3)
@@ -36,9 +33,6 @@ class ChatSessionWrapper(LLM):
 
 
 def setup_chat_model(api_key):
-    """
-    Cấu hình mô hình Google Generative AI.
-    """
     genai.configure(api_key=api_key)
     generation_config = {
         "temperature": 0.7,
@@ -53,9 +47,6 @@ def setup_chat_model(api_key):
 
 
 def query_with_langchain(db_chain, question):
-    """
-    Thực hiện truy vấn bằng ngôn ngữ tự nhiên và trả về kết quả.
-    """
     try:
         print(f"Đang thực hiện truy vấn: {question}")
         result = db_chain.run(question)
