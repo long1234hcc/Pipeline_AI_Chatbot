@@ -3,9 +3,6 @@ from mysql.connector import Error
 import pandas as pd
 
 def connect_mysql(host, port, user, password, database):
-    """
-    Kết nối đến MySQL.
-    """
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -22,9 +19,6 @@ def connect_mysql(host, port, user, password, database):
         raise
 
 def drop_table_if_exists(connection, table_name):
-    """
-    Xoá bảng trong MySQL nếu bảng đã tồn tại.
-    """
     try:
         cursor = connection.cursor()
         drop_table_query = f"DROP TABLE IF EXISTS {table_name};"
@@ -35,13 +29,9 @@ def drop_table_if_exists(connection, table_name):
         raise
 
 def create_tables(connection):
-    """
-    Tạo các bảng theo chuẩn hóa 3NF.
-    """
     try:
         cursor = connection.cursor()
         
-        # Bảng lưu thông tin sản phẩm
         create_products_table = """
         CREATE TABLE IF NOT EXISTS products (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -52,7 +42,6 @@ def create_tables(connection):
         """
         cursor.execute(create_products_table)
         
-        # Bảng lưu giá sản phẩm (có lịch sử giá)
         create_product_prices_table = """
         CREATE TABLE IF NOT EXISTS product_prices (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,7 +54,6 @@ def create_tables(connection):
         """
         cursor.execute(create_product_prices_table)
         
-        # Bảng lưu số lượng bán sản phẩm theo thời gian
         create_sales_table = """
         CREATE TABLE IF NOT EXISTS sales (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -76,16 +64,12 @@ def create_tables(connection):
         """
         cursor.execute(create_sales_table)
 
-        print("Tất cả các bảng đã được tạo thành công!")
     
     except Error as e:
         print(f"Lỗi khi tạo bảng: {e}")
         raise
 
 def insert_product(connection, vn_name, en_name, url_thumbnail):
-    """
-    Thêm sản phẩm vào bảng 'products' nếu chưa tồn tại.
-    """
     try:
         cursor = connection.cursor()
         insert_query = """
@@ -101,9 +85,6 @@ def insert_product(connection, vn_name, en_name, url_thumbnail):
         raise
 
 def insert_product_price(connection, product_id, new_price, old_price, discount_percentage):
-    """
-    Thêm thông tin giá vào bảng 'product_prices'.
-    """
     try:
         cursor = connection.cursor()
         insert_query = """
@@ -117,9 +98,6 @@ def insert_product_price(connection, product_id, new_price, old_price, discount_
         raise
 
 def insert_sales(connection, product_id, sold):
-    """
-    Thêm số lượng sản phẩm đã bán vào bảng 'sales'.
-    """
     try:
         cursor = connection.cursor()
         insert_query = """
@@ -133,18 +111,12 @@ def insert_sales(connection, product_id, sold):
         raise
 
 def insert_data(connection, dataframe):
-    """
-    Chèn dữ liệu từ pandas DataFrame vào MySQL.
-    """
     try:
         for _, row in dataframe.iterrows():
-            # Chèn sản phẩm vào bảng 'products'
             product_id = insert_product(connection, row['vn_name'], row['en_name'], row['url_thumbnail'])
 
-            # Chèn giá sản phẩm vào bảng 'product_prices'
             insert_product_price(connection, product_id, row['new_price'], row['old_price'], row['discount_percentage'])
 
-            # Chèn số lượng bán vào bảng 'sales'
             insert_sales(connection, product_id, row['sold'])
 
         print(f"Đã chèn {len(dataframe)} dòng vào database!")
@@ -154,9 +126,6 @@ def insert_data(connection, dataframe):
         raise
 
 def close_connection(connection):
-    """
-    Đóng kết nối MySQL.
-    """
     if connection.is_connected():
         connection.close()
         print("Kết nối tới MySQL đã được đóng.")
