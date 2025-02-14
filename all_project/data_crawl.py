@@ -18,7 +18,7 @@ async def extract_brand_urls(base_url):
         soup = BeautifulSoup(html_content, "html.parser")
         links = soup.find_all('a', href=True)
 
-        # Lấy danh sách URL của các thương hiệu
+        # Lst URL brand
         brand_urls = [
             f"https://hasaki.vn{link['href']}"
             for link in links
